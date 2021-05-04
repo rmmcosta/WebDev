@@ -47,6 +47,7 @@ deleteProduct = productId => {
 updateProductOnDOM = product => {
     const productElem = document.getElementById(product.id);
     productElem.innerText = product.value;
+    updateTotal();
 };
 
 removeProductFromDom = product => {
@@ -55,6 +56,7 @@ removeProductFromDom = product => {
     for (let btn of btns)
         btn.removeEventListener('click', btn.innerText === '+' ? incrementProduct : decrementProduct);
     liElem.remove();
+    updateTotal();
 };
 
 renderList = () => {
@@ -63,6 +65,10 @@ renderList = () => {
     resetElem.innerText = 'Reset';
     resetElem.onclick = () => { resetProducts(); };
     divRoot.appendChild(resetElem);
+    let totalElem = document.createElement('span');
+    totalElem.id = 'total';
+    totalElem.innerText = 0;
+    divRoot.appendChild(totalElem);
     let listElem = document.createElement('ul');
     listElem.id = 'list';
     divRoot.appendChild(listElem);
@@ -89,6 +95,11 @@ renderList = () => {
 }
 
 initiliazeProducts();
+
+updateTotal = () => {
+    const totalElem = document.getElementById('total');
+    totalElem.innerText = products.filter(p => p.value > 0).length;
+}
 
 window.onload = () => {
     renderList();
