@@ -60,13 +60,17 @@ removeProductFromDom = product => {
 };
 
 renderList = () => {
+    const btnClassesPrimary = 'btn btn-primary m-2';
+    const btnClassesSecondary = 'btn btn-secondary m-2';
     const divRoot = document.getElementById('root');
     let resetElem = document.createElement('button');
+    resetElem.className = btnClassesPrimary;
     resetElem.innerText = 'Reset';
     resetElem.onclick = () => { resetProducts(); };
     divRoot.appendChild(resetElem);
     let totalElem = document.createElement('span');
     totalElem.id = 'total';
+    totalElem.className = 'badge badge-warning m-1 p-2';
     totalElem.innerText = 0;
     divRoot.appendChild(totalElem);
     let listElem = document.createElement('ul');
@@ -75,15 +79,19 @@ renderList = () => {
     products.forEach(product => {
         let nodeElem = document.createElement('li');
         let valueElem = document.createElement('span');
+        valueElem.className = 'badge badge-dark m-1 p-2';
         valueElem.id = product.id;
         valueElem.innerText = product.value;
         let incElem = document.createElement('button');
+        incElem.className = btnClassesSecondary;
         incElem.innerHTML = '+';
         incElem.onclick = () => { incrementProduct(product.id); };
         let decElem = document.createElement('button');
+        decElem.className = btnClassesSecondary;
         decElem.innerHTML = '-';
         decElem.onclick = () => { decrementProduct(product.id); };
         let deleteElem = document.createElement('button');
+        deleteElem.className = 'btn btn-danger';
         deleteElem.innerHTML = 'delete';
         deleteElem.onclick = () => { deleteProduct(product.id); };
         nodeElem.appendChild(valueElem);
