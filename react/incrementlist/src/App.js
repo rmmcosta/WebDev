@@ -1,19 +1,11 @@
 // @ts-check
 import React from 'react';
 import './App.css';
-import Counter from './components/counter.jsx'
+import CounterList from './components/counterList.jsx'
 
 function App() {
   return (
-    <React.Fragment>
-      <Counter />
-      <br />
-      <Counter />
-      <br />
-      <Counter />
-      <br />
-      <Counter />
-    </React.Fragment>
+    <CounterList />
   );
 }
 

@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 
 class Counter extends Component {
     state = {
+        id: 0,
         value: 0
     };
+    constructor(props) {
+        super(props);
+        console.log(this.props.id);
+        this.state.id = this.props.id;
+    }
     render() {
         return (
             <React.Fragment>
-                <span>{this.formatCount()}</span>
+                <span id={this.state.id}>{this.formatCount()}</span>
                 <button onClick={this.increment}>+</button>
                 <button onClick={this.decrement}>-</button>
                 <button>delete</button>
@@ -22,12 +28,14 @@ class Counter extends Component {
         let newState = this.state;
         newState.value += 1;
         this.setState(newState);
+        this.props.onChange(this.state.id, newState.value);
     }
     decrement = () => {
         if (this.state.value !== 0) {
             let newState = this.state;
             newState.value -= 1;
             this.setState(newState);
+            this.props.onChange(this.state.id, newState.value);
         }
     }
 }
