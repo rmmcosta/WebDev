@@ -7,7 +7,6 @@ class Counter extends Component {
     };
     constructor(props) {
         super(props);
-        console.log(this.props.id);
         this.state.id = this.props.id;
     }
     render() {
@@ -16,7 +15,7 @@ class Counter extends Component {
                 <span id={this.state.id}>{this.formatCount()}</span>
                 <button onClick={this.increment}>+</button>
                 <button onClick={this.decrement}>-</button>
-                <button>delete</button>
+                <button onClick={() => { this.props.onDelete(this.state.id) }}>delete</button>
             </React.Fragment>
         );
     }
