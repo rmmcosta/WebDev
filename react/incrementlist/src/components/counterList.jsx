@@ -1,59 +1,66 @@
 import React, { Component } from 'react';
 import Counter from './counter.jsx';
-import 'bootstrap/dist/css/bootstrap.css';
 
 class CounterList extends Component {
     state = {
-        positiveCounters: [],
         counters: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-            { id: 4 },
-            { id: 5 }
+            { id: 1, value: 0 },
+            { id: 2, value: 0 },
+            { id: 3, value: 0 },
+            { id: 4, value: 0 },
+            { id: 5, value: 0 }
         ]
     }
     render() {
         return (
             <React.Fragment>
-                <h4>Selected:</h4><span className="badge badge-primary">{this.state.positiveCounters.length}</span>
-                <button className="button button-primary" onClick={this.onNew}>New</button>
-                {this.state.counters.map(
-                    counter =>
-                        <React.Fragment key={counter.id}>
-                            <br />
-                            <Counter
-                                id={counter.id}
-                                key={counter.id}
-                                onChange={this.onChangeValue}
-                                onDelete={this.onDelete}
-                            />
-                        </React.Fragment>
-                )}
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="ms-4">
+                        <label htmlFor="selectedCounters">Selected:</label>
+                        <span id="selectedCounters" className="badge rounded-pill bg-primary ms-1">
+                            {this.state.counters.filter(c => c.value > 0).length}
+                        </span>
+                        <button className="btn btn-primary btn-sm m-2" onClick={this.onNew}>New</button>
+                    </div>
+                </nav>
+                <div className="container">
+                    {this.state.counters.map(
+                        counter =>
+                            <React.Fragment key={counter.id}>
+                                <br />
+                                <Counter
+                                    counter={counter}
+                                    key={counter.id}
+                                    onChange={this.handleChange}
+                                    onDelete={this.handleDelete}
+                                />
+                            </React.Fragment>
+                    )}
+                </div>
             </React.Fragment>
         );
     }
-    onChangeValue = (id, value) => {
-        let newState = this.state;
-        if (value === 0)
-            newState.positiveCounters = newState.positiveCounters.filter(x => x !== id);
-        else if (newState.positiveCounters.findIndex(x => x === id) === -1)
-            newState.positiveCounters.push(id);
-        this.setState(newState);
+    handleChange = (id, value) => {
+        let newCounters = this.state.counters;
+        const index = newCounters.findIndex(c => c.id === id);
+        if (index !== -1) {
+            newCounters[index].value = value;
+            this.setState({ counters: newCounters });
+        }
     }
 
-    onDelete = id => {
+    handleDelete = id => {
         this.setState(
             {
-                counters: this.state.counters.filter(counter => counter.id !== id),
-                positiveCounters: this.state.positiveCounters.filter(pc => pc !== id)
+                counters: this.state.counters.filter(counter => counter.id !== id)
             }
         );
     }
 
     onNew = () => {
         let newCounters = this.state.counters;
-        newCounters.push({ id: newCounters.length + 1 });
+        const newId = newCounters[newCounters.length - 1].id + 1;
+        newCounters.push({ id: newId, value: 0 });
         this.setState({ counters: newCounters });
     }
 }

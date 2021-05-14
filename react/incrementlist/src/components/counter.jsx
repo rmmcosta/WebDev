@@ -1,40 +1,38 @@
 import React, { Component } from 'react';
 
 class Counter extends Component {
-    state = {
-        id: 0,
-        value: 0
-    };
-    constructor(props) {
-        super(props);
-        this.state.id = this.props.id;
-    }
     render() {
+        const btn = "btn btn-sm m-1 min-width-smbtn ";
+        const btnSecondary = btn + "btn-secondary";
+        const btnDanger = btn + "btn-danger";
+        let countClasses = "min-width-badge badge bg-";
+        countClasses += this.props.counter.value === 0 ? "warning" : "primary";
         return (
             <React.Fragment>
-                <span id={this.state.id}>{this.formatCount()}</span>
-                <button onClick={this.increment}>+</button>
-                <button onClick={this.decrement}>-</button>
-                <button onClick={() => { this.props.onDelete(this.state.id) }}>delete</button>
+                <span className={countClasses} id={this.props.counter.id}>{this.formatCount()}</span>
+                <button
+                    className={btnSecondary}
+                    onClick={this.increment}>+</button>
+                <button
+                    className={btnSecondary}
+                    onClick={this.decrement}>-</button>
+                <button
+                    className={btnDanger}
+                    onClick={() => { this.props.onDelete(this.props.counter.id) }}>delete</button>
             </React.Fragment>
         );
     }
     formatCount() {
-        const { value } = this.state;
-        return value === 0 ? 'Zero' : value;
+        const { counter } = this.props;
+        return counter.value === 0 ? 'Zero' : counter.value;
     }
     increment = () => {
-        let newState = this.state;
-        newState.value += 1;
-        this.setState(newState);
-        this.props.onChange(this.state.id, newState.value);
+        this.props.onChange(this.props.counter.id, this.props.counter.value + 1);
     }
     decrement = () => {
-        if (this.state.value !== 0) {
-            let newState = this.state;
-            newState.value -= 1;
-            this.setState(newState);
-            this.props.onChange(this.state.id, newState.value);
+        const { counter } = this.props;
+        if (counter.value !== 0) {
+            this.props.onChange(counter.id, counter.value - 1);
         }
     }
 }
